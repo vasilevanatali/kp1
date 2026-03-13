@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>План роста чистой прибыли</title>
+    <style>
+        /* базовая оптимизация и типографика */
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 30px;
+        }
+
+        /* заголовки H1 и H2 с большой буквы */
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        /* заголовки H3 строго со строчной буквы */
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: lowercase;
+        }
+
+        /* секции */
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        /* списки строго со строчной буквы */
+        ul {
+            list-style-type: none;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* калькулятор */
+        .calc-grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .slider-group {
+            background: var(--bg);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .slider-value {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* кастомный ползунок для кроссбраузерности */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -7px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .results {
+            background: #eff6ff;
+            border: 2px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .result-item {
+            margin-bottom: 15px;
+        }
+
+        .result-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: lowercase;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .result-sub {
+            font-size: 16px;
+            font-weight: 600;
+            color: #16a34a;
+        }
+
+        /* кнопка с жесткой фиксацией цвета текста */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary);
+            /* критично для tilda и мобильных устройств */
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 30px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* кнопка для тарифов */
+        .btn-tariff {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-tariff:hover {
+            background-color: var(--primary-hover);
+        }
+
+        @media (min-width: 768px) {
+            .calc-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .results {
+                grid-column: span 2;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+            }
+            .result-item {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="section">
+        <h1>Как онлайн-школе увеличить чистую прибыль на 1,2 млн в месяц без роста рекламного бюджета</h1>
+        <h2>Пошаговый план перехода от рентабельности 30% к 40% за счет оцифровки бизнеса и управленческого учета</h2>
+        
+        <h3>оцифровка текущей ситуации</h3>
+        <ul>
+            <li>оборот: 12 000 000 ₽ в месяц.</li>
+            <li>рекламный бюджет: 1 300 000 ₽.</li>
+            <li>команда: 15 человек.</li>
+            <li>текущая прибыль: 3 600 000 ₽ при рентабельности 30%.</li>
+            <li>потерянный потенциал: вы недополучаете 1,2 млн ежемесячно из-за отсутствия точечного контроля расходов.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>интерактивная модель: найдите свои деньги</h3>
+        <p style="margin-bottom: 20px; color: var(--text-muted); font-size: 14px;">
+            подвиньте ползунки, чтобы увидеть: как микроизменения в ключевых метриках влияют на итоговую чистую прибыль.
+        </p>
+
+        <div class="calc-grid">
+            <div class="slider-group">
+                <div class="slider-header">
+                    <span style="text-transform: lowercase;">снижение цены лида (cpl)</span>
+                    <span class="slider-value" id="cpl-val">0%</span>
+                </div>
+                <input type="range" id="cpl" min="0" max="20" step="1" value="0">
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px; text-transform: lowercase;">
+                    за счет отключения неработающих связок
+                </div>
+            </div>
+
+            <div class="slider-group">
+                <div class="slider-header">
+                    <span style="text-transform: lowercase;">оптимизация фот</span>
+                    <span class="slider-value" id="fot-val">0%</span>
+                </div>
+                <input type="range" id="fot" min="0" max="15" step="1" value="0">
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px; text-transform: lowercase;">
+                    привязка kpi к реальной марже
+                </div>
+            </div>
+
+            <div class="slider-group" style="grid-column: 1 / -1;">
+                <div class="slider-header">
+                    <span style="text-transform: lowercase;">рост ltv (повторные продажи)</span>
+                    <span class="slider-value" id="ltv-val">0%</span>
+                </div>
+                <input type="range" id="ltv" min="0" max="20" step="1" value="0">
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px; text-transform: lowercase;">
+                    системная работа с текущей базой без затрат на трафик
+                </div>
+            </div>
+
+            <div class="results">
+                <div class="result-item">
+                    <div class="result-label">новая чистая прибыль</div>
+                    <div class="result-value" id="total-profit">3 600 000 ₽</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">рентабельность</div>
+                    <div class="result-sub" id="total-margin">30.0%</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">дополнительно в кассе</div>
+                    <div class="result-sub" id="extra-profit" style="color: var(--primary);">+ 0 ₽</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>окупаемость тарифов (roi)</h3>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
+            посмотрите: как быстро окупается каждый формат работы за счет найденной дополнительной прибыли. цены - гипотеза.
+        </p>
+        
+        <div style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div style="background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="font-weight: 600; margin-bottom: 10px; color: var(--text-muted); text-transform: lowercase;">базовый аудит</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 5px;">100 000 ₽</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px; text-transform: lowercase;">в месяц</div>
+                <div style="padding-top: 15px; border-top: 1px dashed var(--border); flex-grow: 1;">
+                    <div style="font-size: 12px; margin-bottom: 5px; color: var(--text-muted); text-transform: lowercase;">окупаемость:</div>
+                    <div id="roi-1" style="font-size: 20px; font-weight: 700; color: var(--text-muted);">0%</div>
+                </div>
+                <a href="https://t.me/natalivasileva" target="_blank" rel="noopener noreferrer" class="btn-tariff" style="background-color: var(--text-muted);">выбираю базовый аудит</a>
+            </div>
+
+            <div style="background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1); display: flex; flex-direction: column;">
+                <div style="font-weight: 600; margin-bottom: 10px; color: var(--primary); text-transform: lowercase;">оптимальный</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 5px;">150 000 ₽</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px; text-transform: lowercase;">в месяц</div>
+                <div style="padding-top: 15px; border-top: 1px dashed #bfdbfe; flex-grow: 1;">
+                    <div style="font-size: 12px; margin-bottom: 5px; color: var(--text-muted); text-transform: lowercase;">окупаемость:</div>
+                    <div id="roi-2" style="font-size: 20px; font-weight: 700; color: var(--text-muted);">0%</div>
+                </div>
+                <a href="https://t.me/natalivasileva" target="_blank" rel="noopener noreferrer" class="btn-tariff">выбираю оптимальный</a>
+            </div>
+
+            <div style="background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="font-weight: 600; margin-bottom: 10px; color: var(--text-muted); text-transform: lowercase;">под ключ</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 5px;">250 000 ₽</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px; text-transform: lowercase;">в месяц</div>
+                <div style="padding-top: 15px; border-top: 1px dashed var(--border); flex-grow: 1;">
+                    <div style="font-size: 12px; margin-bottom: 5px; color: var(--text-muted); text-transform: lowercase;">окупаемость:</div>
+                    <div id="roi-3" style="font-size: 20px; font-weight: 700; color: var(--text-muted);">0%</div>
+                </div>
+                <a href="https://t.me/natalivasileva" target="_blank" rel="noopener noreferrer" class="btn-tariff" style="background-color: var(--text-main);">выбираю под ключ</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>как мы придем к цели</h3>
+        <ul>
+            <li>внедрение p&l и dds: вы начнете видеть реальную прибыль, а не просто остатки на счетах.</li>
+            <li>контроль юнит-экономики: оцифруем окупаемость каждого вложенного рубля из 1,3 млн рекламного бюджета.</li>
+            <li>сборка платежного календаря: исключим кассовые разрывы.</li>
+            <li>дашборд собственника: все ключевые метрики бизнеса в одном окне.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>этапы работы: первые 30 дней</h3>
+        <ul>
+            <li>неделя 1: аудит текущих баз данных, выгрузка расходов на трафик и фот.</li>
+            <li>неделя 2: сборка тестового отчета о прибылях и убытках (p&l) за прошлый месяц.</li>
+            <li>неделя 3: поиск узких мест, расчет реальной стоимости лида и клиента.</li>
+            <li>неделя 4: презентация финансовой модели и плана перехода к рентабельности 40%.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>почему цифры выше - это гипотеза</h3>
+        <p style="color: var(--text-main); font-size: 15px; margin-bottom: 20px;">
+            калькулятор показывает идеальную математику. в реальности нельзя просто «срезать» фот на 10% или отключить рекламу без последствий. чтобы понять, где именно скрыт ваш миллион недополученной прибыли, нужно оцифровать базу.
+        </p>
+        
+        <div style="background: var(--bg); padding: 25px; border-radius: 12px; border: 1px solid var(--border);">
+            <h3 style="margin-top: 0; color: var(--primary);">предлагаю первый шаг: точечный аудит</h3>
+            <ul style="margin-bottom: 0;">
+                <li>посмотрим ваши текущие таблицы (строго под nda).</li>
+                <li>найдем 2-3 процесса, которые сжирают маржу прямо сейчас.</li>
+                <li>поймем, окупается ли моя работа конкретно в вашем проекте.</li>
+            </ul>
+            <button class="btn" onclick="alert('переход на форму записи в telegram/whatsapp')">
+                разобрать экономику школы
+            </button>
+            <div style="text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 10px;">
+                это бесплатно и займет 45 минут
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // базовые вводные (гипотеза для расчета)
+    const BASE_REVENUE = 12000000;
+    const BASE_AD_SPEND = 1300000;
+    const BASE_FOT = 4000000; // гипотеза
+    const BASE_OTHER_COSTS = 3100000; // гипотеза
+    const BASE_PROFIT = 3600000;
+    
+    // тарифы (гипотеза)
+    const TARIFF_1 = 100000; 
+    const TARIFF_2 = 150000; 
+    const TARIFF_3 = 250000; 
+
+    const formatCurrency = (num) => {
+        return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽";
+    };
+
+    const calculate = () => {
+        const cplOpt = parseFloat(document.getElementById('cpl').value) / 100;
+        const fotOpt = parseFloat(document.getElementById('fot').value) / 100;
+        const ltvOpt = parseFloat(document.getElementById('ltv').value) / 100;
+
+        // обновляем значения над ползунками
+        document.getElementById('cpl-val').innerText = document.getElementById('cpl').value + '%';
+        document.getElementById('fot-val').innerText = document.getElementById('fot').value + '%';
+        document.getElementById('ltv-val').innerText = document.getElementById('ltv').value + '%';
+
+        // расчет новой экономики
+        const newRevenue = BASE_REVENUE * (1 + ltvOpt);
+        const newAdSpend = BASE_AD_SPEND * (1 - cplOpt);
+        const newFot = BASE_FOT * (1 - fotOpt);
+        
+        // считаем, что доп. выручка с ltv требует 20% переменных расходов на исполнение обязательств (гипотеза)
+        const additionalDeliveryCosts = (newRevenue - BASE_REVENUE) * 0.2;
+        
+        const totalExpenses = newAdSpend + newFot + BASE_OTHER_COSTS + additionalDeliveryCosts;
+        const newProfit = newRevenue - totalExpenses;
+        const newMargin = (newProfit / newRevenue) * 100;
+        const extraProfit = newProfit - BASE_PROFIT;
+
+        // вывод на экран
+        document.getElementById('total-profit').innerText = formatCurrency(newProfit);
+        document.getElementById('total-margin').innerText = newMargin.toFixed(1) + '%';
+        
+        const extraProfitElem = document.getElementById('extra-profit');
+
+        if (extraProfit > 0) {
+            extraProfitElem.innerText = '+ ' + formatCurrency(extraProfit);
+            extraProfitElem.style.color = '#16a34a'; // зеленый
+        } else {
+            extraProfitElem.innerText = formatCurrency(extraProfit);
+            extraProfitElem.style.color = 'var(--text-muted)';
+        }
+
+        // функция расчета и обновления roi для конкретного тарифа
+        const updateRoi = (elementId, tariffCost, extraMoney) => {
+            const elem = document.getElementById(elementId);
+            if (extraMoney > 0) {
+                const roiPercent = ((extraMoney - tariffCost) / tariffCost) * 100;
+                if (roiPercent > 0) {
+                    elem.innerText = roiPercent.toFixed(0) + '%';
+                    elem.style.color = '#16a34a'; // зеленый
+                } else {
+                    elem.innerText = 'не окупается';
+                    elem.style.color = '#ef4444'; // красный
+                }
+            } else {
+                elem.innerText = '0%';
+                elem.style.color = 'var(--text-muted)';
+            }
+        };
+
+        // обновляем все три тарифа
+        updateRoi('roi-1', TARIFF_1, extraProfit);
+        updateRoi('roi-2', TARIFF_2, extraProfit);
+        updateRoi('roi-3', TARIFF_3, extraProfit);
+    };
+
+    // слушатели событий
+    document.getElementById('cpl').addEventListener('input', calculate);
+    document.getElementById('fot').addEventListener('input', calculate);
+    document.getElementById('ltv').addEventListener('input', calculate);
+
+    // первичная инициализация
+    calculate();
+</script>
+
+</body>
+</html>
